@@ -1,6 +1,6 @@
 
 <template>
-
+    <head title="HOME PAGE"></head>
     <!-- Your template code here -->
     <div class="bg-white">
         <!-- Mobile menu -->
