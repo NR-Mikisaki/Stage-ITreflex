@@ -5,7 +5,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('Home'); // Define the home route here
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('Home');
+Route::get('/company', [\App\Http\Controllers\CompanyController::class, 'index'])->name('Company');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

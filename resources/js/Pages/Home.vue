@@ -225,6 +225,9 @@
             </nav>
         </header>
     </div>
+    <div>
+
+    </div>
 </template>
 
 <script setup>
@@ -367,7 +370,7 @@ const navigation = {
         },
     ],
     pages: [
-        {name: 'Company', href: '#'},
+        {name: 'Company', href: 'Company'},
         {name: 'Stores', href: '#'},
     ],
 }
