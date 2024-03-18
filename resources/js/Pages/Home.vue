@@ -1,4 +1,6 @@
+
 <template>
+
     <!-- Your template code here -->
     <div class="bg-white">
         <!-- Mobile menu -->
@@ -232,6 +234,7 @@
 
 <script setup>
 
+
 import { ref } from 'vue'
 import {
     Dialog,
@@ -251,7 +254,6 @@ import {
 import {MenuIcon,ShoppingBagIcon,SearchIcon,XIcon} from '@heroicons/vue/outline'
 
 const open = ref(false)
-
 const navigation = {
     categories: [
         {
