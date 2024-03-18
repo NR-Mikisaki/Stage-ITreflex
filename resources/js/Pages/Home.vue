@@ -245,7 +245,7 @@ import {
     TransitionChild,
     TransitionRoot,
 } from '@headlessui/vue'
-import {XIcon,MenuIcon,ShoppingBagIcon,SearchIcon} from '@heroicons/vue/outline'
+import {MenuIcon,ShoppingBagIcon,SearchIcon,XIcon} from '@heroicons/vue/outline'
 
 const open = ref(false)
 
