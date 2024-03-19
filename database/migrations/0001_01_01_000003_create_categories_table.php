@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id('id');
+        Schema::create('category', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
+
         });
-        Schema::create('subcategories',function (Blueprint $table){
-            $table->id('id');
+        Schema::create('subcategory', function (Blueprint $table) {
+            $table->id(); // This will automatically create an auto-incrementing primary key called 'id'
             $table->string('name');
-            $table->foreign('HeadCategory')->references('id')->on('categories');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->
+            on('category')->onDelete('cascade');
 
         });
     }
@@ -28,6 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('subcategory');
+        Schema::dropIfExists('category');
     }
 };
