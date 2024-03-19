@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('id');
+            $table->string('name');
+        });
+        Schema::create('subcategories',function (Blueprint $table){
+            $table->id('id');
+            $table->string('name');
+            $table->foreign('HeadCategory')->references('id')->on('categories');
+
         });
     }
 
