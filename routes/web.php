@@ -27,7 +27,7 @@ Route::get('/register', function () {
 })->name('register')->middleware('guest');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

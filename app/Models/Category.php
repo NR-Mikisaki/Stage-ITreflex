@@ -8,11 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $table = 'Category';
+    protected $table = 'Categories';
     public $incrementing= true;
     public $timestamps = false;
     protected $primaryKey ='id';
     protected $fillable = [
-        'name'
+        'name',
+        'category_id'
     ];
+    public function subcategories()
+    {
+        return $this->hasMany(Subcategory::class);
+    }
 }

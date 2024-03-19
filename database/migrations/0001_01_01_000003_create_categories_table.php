@@ -11,27 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category', function (Blueprint $table) {
+        Schema::create('categories',function (Blueprint $table){
             $table->id();
             $table->string('name');
-
         });
-        Schema::create('subcategory', function (Blueprint $table) {
-            $table->id(); // This will automatically create an auto-incrementing primary key called 'id'
+
+        Schema::create('subcategories', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->
-            on('category')->onDelete('cascade');
+            on('Categories')->onDelete('cascade');
 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
-        Schema::dropIfExists('subcategory');
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('subcategories');
+        Schema::dropIfExists('categories');
     }
 };

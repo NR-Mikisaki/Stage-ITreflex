@@ -5,26 +5,7 @@
         <!-- Your template code here -->
         <div class="bg-white">
 
-            <transition name="fade">
-                <button
-                    v-if="!isLoggedIn"
-                    @click="openRegistrationModal"
-                    class="fixed bottom-4  md:right-6 px-4 py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Register
-                </button>
-            </transition>
 
-            <!-- Login button for guests -->
-            <transition name="fade">
-                <button
-                    v-if="!isLoggedIn"
-                    @click="openLoginModal"
-                    class="fixed bottom-4  md:right-32 px-4 py-2 bg-gray-600 text-white rounded-md shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                >
-                    Login
-                </button>
-            </transition>
             <!-- Mobile menu -->
             <TransitionRoot as="template" :show="open">
                 <Dialog as="div" class="relative z-40 lg:hidden" @close="open = false">
@@ -119,10 +100,10 @@
 
                                 <div class="space-y-6 border-t border-gray-200 px-4 py-6">
                                     <div class="flow-root">
-                                        <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Sign in</a>
+                                        <Link :href="route('login')" class="-m-2 block p-2 font-medium text-gray-900">Sign in</Link>
                                     </div>
                                     <div class="flow-root">
-                                        <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Create account</a>
+                                        <Link :href="route('register')" class="-m-2 block p-2 font-medium text-gray-900">Create account</Link>
                                     </div>
                                 </div>
 
@@ -214,9 +195,34 @@
 
                             <div class="ml-auto flex items-center">
                                 <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                    <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-800">Sign in</a>
+                                    <nav class="-mx-3 flex flex-1 justify-end">
+                                        <Link
+
+                                            v-if="$page.props.auth.user"
+                                            :href="route('dashboard')"
+                                            class="text-sm font-medium text-gray-700 hover:text-gray-800"
+
+                                        >
+                                            Dashboard
+                                        </Link>
+                                        <Link
+                                            method="POST"
+                                        v-if="$page.props.auth.user"
+                                            :href="route('logout')"
+                                            class="pl-2 text-sm font-medium text-gray-700 hover:text-gray-800"
+                                        >
+                                            Log out
+                                        </Link>
+                                        <template v-else>
+                                            <Link :href="route('login')" class="text-sm font-medium text-gray-700 hover:text-gray-800">Sign in</Link>
+                                            <Link :href="route('register')" class="pl-2 text-sm font-medium text-gray-700 hover:text-gray-800">Create account</Link>
+                                        </template>
+                                    </nav>
+
+
+
                                     <span class="h-6 w-px bg-gray-200" aria-hidden="true" />
-                                    <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-800">Create account</a>
+
                                 </div>
 
                                 <div class="hidden lg:ml-8 lg:flex">
@@ -258,6 +264,7 @@
 
 
     import { ref } from 'vue'
+    import { Link } from '@inertiajs/vue3'
     import {
         Dialog,
         DialogPanel,
@@ -307,6 +314,7 @@
                 ],
                 sections: [
                     {
+
                         id: 'clothing',
                         name: 'Clothing',
                         items: [

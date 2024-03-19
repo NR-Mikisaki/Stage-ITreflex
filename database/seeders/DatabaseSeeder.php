@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Subcategory;
 use Illuminate\Database\Seeder;
-use App\Models\SubCategory;
 
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $subCategoriesClothing = [
+        $SubcategoryClothing = [
             'Tops',
             'Dresses',
             'Pants',
@@ -26,7 +24,7 @@ class DatabaseSeeder extends Seeder
             'Jackets',
             'Activewear',
         ];
-        $subCategoriesAccessories = [
+        $SubcategoryAccessories = [
             'Watches',
             'Wallets',
             'Bags',
@@ -34,7 +32,7 @@ class DatabaseSeeder extends Seeder
             'Hats',
             'Belts'
         ];
-        $subCategoriesBrands = [
+        $SubcategoryBrands = [
             'Full Nelson',
             'My Way',
             'Re-Arranged',
@@ -51,27 +49,29 @@ class DatabaseSeeder extends Seeder
         foreach ($Categories as $CategoryName)
         {
             Category::factory()->create([
-                'name' => $CategoryName
+                'name'=>$CategoryName
             ]);
+
         }
 
-        foreach ($subCategoriesClothing as $subCategoryName) {
-            SubCategory::factory()->create([
-                'name' => $subCategoryName,
+
+        foreach ($SubcategoryClothing as $ItemName) {
+            Subcategory::factory()->create([
+                'name' => $ItemName,
                 'category_id' => 1,
             ]);
 
         }
-        foreach ($subCategoriesAccessories as $subCategoryName) {
-            SubCategory::factory()->create([
-                'name' => $subCategoryName,
+        foreach ($SubcategoryAccessories as $ItemName) {
+            Subcategory::factory()->create([
+                'name' => $ItemName,
                 'category_id' => 2,
             ]);
 
         }
-        foreach ($subCategoriesBrands as $subCategoryName) {
-            SubCategory::factory()->create([
-                'name' => $subCategoryName,
+        foreach ($SubcategoryBrands as $ItemName) {
+            Subcategory::factory()->create([
+                'name' => $ItemName,
                 'category_id' => 3,
             ]);
 
