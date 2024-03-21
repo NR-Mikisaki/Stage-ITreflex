@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Database\Seeder;
 
@@ -45,13 +46,46 @@ class DatabaseSeeder extends Seeder
             'Accessories',
             'Brands'
         ];
+        $products = [
+            'JJ_Tshirt' => [
+                [
+                    'name' => 'Jack and Jones T-shirt',
+                    'price' => 49.99,
+                    'subcategory_id'=>6
+                ]
+            ],
+            'Brown_shorts' => [
+                [
+                    'name' => 'Brown Shorts',
+                    'price' => 22.99,
+                    'subcategory_id'=>3
+                ]
+            ],
+            'Cool_glasses' =>[
+                [
+                    'name' =>'Gucci glasses',
+                    'price' => 299.99,
+                    'subcategory_id'=>12
+                ]
+            ]
 
+        ];
         foreach ($Categories as $CategoryName)
         {
             Category::factory()->create([
                 'name'=>$CategoryName
             ]);
 
+        }
+        foreach ($products as $productName => $productDetails)
+        {
+            foreach ($productDetails as $details) {
+                Product::factory()->create([
+                    'name' => $details['name'],
+                    'price' => $details['price'],
+                    'subcategory_id'=> $details['subcategory_id']
+                ]);
+            }
         }
 
 
