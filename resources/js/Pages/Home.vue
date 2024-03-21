@@ -54,8 +54,8 @@
                                         <TabList class="-mb-px flex space-x-8 px-4">
                                             <Tab
                                                 as="template"
-                                                v-for="category in navigation.categories"
-                                                :key="category.name"
+                                                v-for="category in categories"
+                                                :key="category.id"
                                                 v-slot="{ selected }"
                                             >
                                                 <button
@@ -143,7 +143,7 @@
                             <!-- Flyout menus -->
                             <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
                                 <div class="flex h-full space-x-8">
-                                    <Popover v-for="category in navigation.categories" :key="category.name" class="flex" v-slot="{ open }">
+                                    <Popover v-for="category in navigation.categories" :key="category.id" class="flex" v-slot="{ open }">
                                         <div class="relative flex">
                                             <PopoverButton
                                                 :class="[open ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-800', 'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out']"
@@ -161,8 +161,9 @@
                                                     <div class="mx-auto max-w-7xl px-8">
                                                         <div class="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                                             <div class="col-start-2 grid grid-cols-2 gap-x-8">
-                                                                <div v-for="item in category.featured" :key="item.name" class="group relative text-base sm:text-sm">
+                                                                <div v-for="item in category.items" :key="item.name" class="group relative text-base sm:text-sm">
                                                                     <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+                                                                        <!-- Assuming item.imageSrc and item.imageAlt are available in your data -->
                                                                         <img :src="item.imageSrc" :alt="item.imageAlt" class="object-cover object-center" />
                                                                     </div>
                                                                     <a :href="item.href" class="mt-6 block font-medium text-gray-900">
@@ -172,16 +173,7 @@
                                                                     <p aria-hidden="true" class="mt-1">Shop now</p>
                                                                 </div>
                                                             </div>
-                                                            <div class="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
-                                                                <div v-for="section in category.sections" :key="section.name">
-                                                                    <p :id="`${section.name}-heading`" class="font-medium text-gray-900">{{ section.name }}</p>
-                                                                    <ul role="list" :aria-labelledby="`${section.name}-heading`" class="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
-                                                                        <li v-for="item in section.items" :key="item.name" class="flex">
-                                                                            <a :href="item.href" class="hover:text-gray-800">{{ item.name }}</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
+                                                            <!-- Remaining code for sections -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -189,6 +181,7 @@
                                         </transition>
                                     </Popover>
 
+                                    <!-- Removed direct links to pages and replaced with dynamic ones from navigation data -->
                                     <a v-for="page in navigation.pages" :key="page.name" :href="page.href" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{{ page.name }}</a>
                                 </div>
                             </PopoverGroup>
@@ -260,11 +253,12 @@
         </div>
     </template>
 
+
     <script setup>
 
 
     import { ref } from 'vue'
-    import { Link } from '@inertiajs/vue3'
+    import {Link, usePage} from '@inertiajs/vue3'
     import {
         Dialog,
         DialogPanel,
@@ -280,10 +274,14 @@
         TransitionChild,
         TransitionRoot,
     } from '@headlessui/vue'
+    import axios from 'axios'
     import {MenuIcon,ShoppingBagIcon,SearchIcon,XIcon} from '@heroicons/vue/outline'
+
 
     const open = ref(false)
     const isLoggedIn = ref(false)
+    const page = usePage()
+    const categories = computed(()=> page.props.categories)
 
     const openRegistrationModal = () => {
         window.location.href='/registration-page'
@@ -292,7 +290,8 @@
     {
         window.location.href='/login-page'
     }
-
+    console.log(page.props.categories[0].name)
+    console.log(page.props.categories[0].subcategories[0].name)
     const navigation = {
         categories: [
             {
@@ -314,42 +313,40 @@
                 ],
                 sections: [
                     {
-
-                        id: 'clothing',
-                        name: 'Clothing',
+                        id: page.props.categories[0].name ,
+                        name: page.props.categories[0].name,
                         items: [
-                            {name: 'Tops', href: '#'},
-                            {name: 'Dresses', href: '#'},
-                            {name: 'Pants', href: '#'},
-                            {name: 'Denim', href: '#'},
-                            {name: 'Sweaters', href: '#'},
-                            {name: 'T-Shirts', href: '#'},
-                            {name: 'Jackets', href: '#'},
-                            {name: 'Activewear', href: '#'},
-                            {name: 'Browse All', href: '#'},
+                            {name: page.props.categories[0].subcategories[0].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[1].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[2].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[3].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[4].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[5].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[6].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[7].name, href: '#'},
                         ],
                     },
                     {
-                        id: 'accessories',
-                        name: 'Accessories',
+                        id: page.props.categories[1].name,
+                        name: page.props.categories[1].name,
                         items: [
-                            {name: 'Watches', href: '#'},
-                            {name: 'Wallets', href: '#'},
-                            {name: 'Bags', href: '#'},
-                            {name: 'Sunglasses', href: '#'},
-                            {name: 'Hats', href: '#'},
-                            {name: 'Belts', href: '#'},
+                            {name: page.props.categories[1].subcategories[0].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[1].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[2].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[3].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[4].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[5].name, href: '#'},
                         ],
                     },
                     {
-                        id: 'brands',
-                        name: 'Brands',
+                        id: page.props.categories[2].name,
+                        name: page.props.categories[2].name,
                         items: [
-                            {name: 'Full Nelson', href: '#'},
-                            {name: 'My Way', href: '#'},
-                            {name: 'Re-Arranged', href: '#'},
-                            {name: 'Counterfeit', href: '#'},
-                            {name: 'Significant Other', href: '#'},
+                            {name: page.props.categories[2].subcategories[0].name, href: '#'},
+                            {name: page.props.categories[2].subcategories[1].name, href: '#'},
+                            {name: page.props.categories[2].subcategories[2].name, href: '#'},
+                            {name: page.props.categories[2].subcategories[3].name, href: '#'},
+                            {name: page.props.categories[2].subcategories[4].name, href: '#'},
                         ],
                     },
                 ],
@@ -374,50 +371,70 @@
                 ],
                 sections: [
                     {
-                        id: 'clothing',
-                        name: 'Clothing',
+                        id: page.props.categories[0].name,
+                        name: page.props.categories[0].name,
                         items: [
-                            {name: 'Tops', href: '#'},
-                            {name: 'Pants', href: '#'},
-                            {name: 'Sweaters', href: '#'},
-                            {name: 'T-Shirts', href: '#'},
-                            {name: 'Jackets', href: '#'},
-                            {name: 'Activewear', href: '#'},
-                            {name: 'Browse All', href: '#'},
+                            {name: page.props.categories[0].subcategories[0].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[1].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[2].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[3].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[4].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[5].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[6].name, href: '#'},
+                            {name: page.props.categories[0].subcategories[7].name, href: '#'},
                         ],
                     },
                     {
-                        id: 'accessories',
-                        name: 'Accessories',
+                        id: page.props.categories[1].name,
+                        name: page.props.categories[1].name,
                         items: [
-                            {name: 'Watches', href: '#'},
-                            {name: 'Wallets', href: '#'},
-                            {name: 'Bags', href: '#'},
-                            {name: 'Sunglasses', href: '#'},
-                            {name: 'Hats', href: '#'},
-                            {name: 'Belts', href: '#'},
+                            {name: page.props.categories[1].subcategories[0].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[1].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[2].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[3].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[4].name, href: '#'},
+                            {name: page.props.categories[1].subcategories[5].name, href: '#'},
                         ],
                     },
                     {
-                        id: 'brands',
-                        name: 'Brands',
+                        id: page.props.categories[2].name,
+                        name: page.props.categories[2].name,
                         items: [
-                            {name: 'Re-Arranged', href: '#'},
-                            {name: 'Counterfeit', href: '#'},
-                            {name: 'Full Nelson', href: '#'},
-                            {name: 'My Way', href: '#'},
+                            {name: page.props.categories[2].subcategories[0].name, href: '#'},
+                            {name: page.props.categories[2].subcategories[1].name, href: '#'},
+                            {name: page.props.categories[2].subcategories[2].name, href: '#'},
+                            {name: page.props.categories[2].subcategories[3].name, href: '#'},
+                            {name: page.props.categories[2].subcategories[4].name, href: '#'},
                         ],
                     },
                 ],
+                pages: [
+                    {name: 'Company', href: 'Company'},
+                    {name: 'Stores', href: '#'},
+                ]
             },
         ],
-        pages: [
-            {name: 'Company', href: 'Company'},
-            {name: 'Stores', href: '#'},
-        ],
-    }
-    </script>
+    };
 
+
+
+
+
+
+
+    </script>
+    <script>
+    import {computed} from "vue";
+    import {usePage} from "@inertiajs/vue3";
+
+    export default {
+        setup() {
+            const categories = computed(() =>page.props.valueOf().categories)
+            return {categories}
+        },
+    }
+
+    </script>
     <style scoped>
     /* Your scoped CSS styles here */
     </style>
