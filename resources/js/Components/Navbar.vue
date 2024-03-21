@@ -216,21 +216,22 @@
                             </div>
 
                             <!-- Cart -->
+                            <popover-group>
+                                <popover class="ml-4 flow-root lg:ml-6" :show="true">
+                                    <PopoverButton class=" group -m-2 flex items-center p-2 ">
+                                        <ShoppingBagIcon class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                        <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                        <span class="sr-only">items in cart, view bag</span>
+                                    </PopoverButton>
 
-                            <popover class="ml-4 flow-root lg:ml-6" :show="true">
-                                <PopoverButton class=" group -m-2 flex items-center p-2 ">
-                                    <ShoppingBagIcon class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                                    <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                                    <span class="sr-only">items in cart, view bag</span>
-                                </PopoverButton>
 
+                                    <PopoverPanel class="absolute h-80 mt-5 flex w-32 -translate-x-1/2">
+                                        <div  class="mx-auto max-w-sm  w-screen flex-auto overflow-hidden bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
 
-                                <PopoverPanel class="absolute h-56 z-10 mt-5 flex w-32 -translate-x-1/2">
-                                    <div  class="mx-auto max-w-sm  w-screen flex-auto overflow-hidden bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
-                                        <p></p>
-                                    </div>
-                                </PopoverPanel>
-                            </popover>
+                                        </div>
+                                    </PopoverPanel>
+                                </popover>
+                            </popover-group>
                         </div>
                     </div>
                 </div>
