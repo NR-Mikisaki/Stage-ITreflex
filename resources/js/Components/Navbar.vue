@@ -1,6 +1,7 @@
 
 <template>
     <!-- Mobile menu -->
+    <top></top>
     <TransitionRoot as="template" :show="open">
             <Dialog as="div" class="relative z-40 lg:hidden" @close="open = false">
                 <TransitionChild
@@ -238,7 +239,8 @@
 </template>
 
 <script setup>
-import FlyoutMenu  from "@/Components/FlyoutMenu.vue";
+import Top from "@/Components/Top.vue"
+import FlyoutMenu  from "@/Components/FlyoutMenu.vue"
 import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import {

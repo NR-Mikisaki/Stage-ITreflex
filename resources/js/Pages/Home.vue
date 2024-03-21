@@ -1,7 +1,6 @@
 
     <template>
         <head  title="HOME PAGE"></head>
-        <Top></Top>
         <navbar></navbar>
     </template>
 
