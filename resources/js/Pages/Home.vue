@@ -5,7 +5,6 @@
         <navbar></navbar>
     </template>
 
-    /* hallo*/
 
 
 
