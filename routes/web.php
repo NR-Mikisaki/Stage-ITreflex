@@ -10,8 +10,6 @@ use Inertia\Inertia;
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('Home');
 Route::get('/company', [\App\Http\Controllers\CompanyController::class, 'index'])->name('company');
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('root');
-
 
 Route::get('/', function () {
     return Inertia::render('Home', [
@@ -20,18 +18,14 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
-
-Route::get('/register', function () {
-    return view('registerpage');
-})->name('register')->middleware('guest');
+})->name('root');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [Profilecontroller::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
