@@ -216,22 +216,25 @@
                             </div>
 
                             <!-- Cart -->
-                            <popover-group>
-                                <popover class="ml-4 flow-root lg:ml-6" :show="true">
-                                    <PopoverButton class=" group -m-2 flex items-center p-2 ">
-                                        <ShoppingBagIcon class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                                        <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                                        <span class="sr-only">items in cart, view bag</span>
-                                    </PopoverButton>
-
-
-                                    <PopoverPanel class="absolute h-80 mt-5 flex w-32 -translate-x-1/2">
-                                        <div  class="mx-auto max-w-sm  w-screen flex-auto overflow-hidden bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
-
+                            <button type="button" class="relative rounded-md bg-white p-2 text-gray-400" @click="e = true">
+                                <ShoppingBagIcon class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                <span class="sr-only">items in cart, view bag</span>
+                            </button>
+                            <TransitionRoot as="template" :show="e">
+                                <Dialog as="div" class="relative z-40 lg:hidden" @open="e = false">
+                                    <popover class="fixed inset-0 z-40 flex" v-slot="{e}">
+                                     class="fixed inset-0 z-40 flex" v-slot="{e}">
+                                        <div class="relative flex">
+                                            <PopoverButton
+                                                :class="[e ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-800', 'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out']"
+                                            >
+                                                e
+                                            </PopoverButton>
                                         </div>
-                                    </PopoverPanel>
-                                </popover>
-                            </popover-group>
+                                    </popover>
+                                </Dialog>
+                            </TransitionRoot>
                         </div>
                     </div>
                 </div>
@@ -264,6 +267,7 @@ import Navbar from "@/Components/Navbar.vue";
 import {ChevronDownIcon} from "@heroicons/vue/solid";
 
 const open = ref(false)
+const e = ref(false)
 const isLoggedIn = ref(false)
 
 const openRegistrationModal = () => {
