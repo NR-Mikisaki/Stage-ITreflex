@@ -77,16 +77,7 @@ class DatabaseSeeder extends Seeder
             ]);
 
         }
-        foreach ($products as $productName => $productDetails)
-        {
-            foreach ($productDetails as $details) {
-                Product::factory()->create([
-                    'name' => $details['name'],
-                    'price' => $details['price'],
-                    'subcategory_id'=> $details['subcategory_id']
-                ]);
-            }
-        }
+
 
 
         foreach ($SubcategoryClothing as $ItemName) {
@@ -109,6 +100,16 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 3,
             ]);
 
+        }
+        foreach ($products as $productName => $productDetails)
+        {
+            foreach ($productDetails as $details) {
+                Product::factory()->create([
+                    'name' => $details['name'],
+                    'price' => $details['price'],
+                    'subcategory_id'=> $details['subcategory_id']
+                ]);
+            }
         }
     }
 }
