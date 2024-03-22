@@ -314,7 +314,12 @@
                                     <DialogPanel
                                         class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl"
                                     >
-
+                                        <div v-for="category in navigation.categories"
+                                             :key="category.name"
+                                             class="group relative text-base sm:text-sm">
+                                            <p :id="`${category.name}-heading`"
+                                               class="font-medium text-gray-900">{{ category.name }}</p>
+                                        </div>
                                     </DialogPanel>
                                 </transitionchild>
                             </div>
