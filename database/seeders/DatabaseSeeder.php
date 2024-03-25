@@ -111,18 +111,24 @@ class DatabaseSeeder extends Seeder
             ]]
         ];
         $cartitems=[
-            'cart1'=>[[
+            'cartitem1'=>[[
                 'amount'=>2,
                 'cart_id'=>1,
                 'productName'=>'Jack and Jones T-shirt'
 
             ]],
-            'cart2'=>[[
+            'cartitem2'=>[[
                 'amount'=>1,
                 'cart_id'=>2,
                 'productName'=>'Brown Shorts'
 
-            ]]
+            ]],
+            'cartitem3'=>[[
+                'amount'=>2,
+                'cart_id'=>1,
+                'productName'=>'Jack and Jones Trousers'
+
+            ]],
         ];
         foreach ($Categories as $CategoryName)
         {
