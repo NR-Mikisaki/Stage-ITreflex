@@ -70,6 +70,22 @@ class DatabaseSeeder extends Seeder
                     'subcategory_id'=>12,
                     'imagesrc'=>'https://pretavoir.us/cdn/shop/files/gucci-gg1448o-001-hd-1.jpg?v=1697035144'
                 ]
+            ],
+            'JJ_Trousers'=>[
+                [
+                    'name'=>'Jack and Jones trousers',
+                    'price'=>69.99,
+                    'subcategory_id'=>3,
+                    'imagesrc'=>'https://images.jackjones.com/12193553/4241403/003/jackjones-slimfitchinobroek-grijs.jpg?v=8f67cee030faf9536c6ba839a86bc6e6&format=webp&width=1280&quality=90&key=25-0-3'
+                ]
+            ],
+            'JJ_Sweater'=>[
+                [
+                    'name'=>'Jack and Jones sweater',
+                    'price'=>119.99,
+                    'subcategory_id'=>5,
+                    'imagesrc'=>'https://images.jackjones.com/12248431/4372306/001/jackjones-effensweatshirtmetrondehals-bruin.jpg?v=97229aa1df2cf0067acd3aa5026a3640&format=webp&width=1280&quality=90&key=25-0-3'
+                ]
             ]
 
         ];
