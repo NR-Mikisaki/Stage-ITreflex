@@ -113,16 +113,14 @@ class DatabaseSeeder extends Seeder
         $cartitems=[
             'cart1'=>[[
                 'amount'=>2,
-                'product_id'=>2,
                 'cart_id'=>1,
-                'productName'=>'e'
+                'productName'=>'Jack and Jones T-shirt'
 
             ]],
             'cart2'=>[[
                 'amount'=>1,
-                'product_id'=>1,
                 'cart_id'=>2,
-                'productName'=>'b'
+                'productName'=>'Brown Shorts'
 
             ]]
         ];
@@ -190,7 +188,6 @@ class DatabaseSeeder extends Seeder
             foreach ($cartitemdetails as $details){
                 CartItem::factory()->create([
                 'amount'=>$details['amount'],
-                'product_id'=>$details['product_id'],
                 'cart_id'=>$details['cart_id'],
                     'productName'=>$details['productName'],
                 ]);

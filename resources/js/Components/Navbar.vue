@@ -349,18 +349,15 @@
                                                     <div class="mt-8">
                                                         <div class="flow-root">
                                                             <ul role="list" class="-my-6 divide-y divide-gray-200 z-50">
-                                                                <li v-for="cartItem in cartNavigation.Carts" :key="cartItem.id" class="flex py-6">
-
-
+                                                                <li v-for="cartItem in cartNavigation.Carts[0].cart_items" :key="cartItem.id" class="flex py-6">
                                                                     <div class="ml-4 flex flex-1 flex-col">
                                                                         <div>
                                                                             <div class="flex justify-between text-base font-medium text-gray-900">
                                                                                 <h3>
-                                                                                    <Link :href="route('dashboard')">{{ cartItem.productName}} sdfsdf</Link>
+                                                                                    <Link :href="route('dashboard')">{{ cartItem.productName}} </Link>
                                                                                 </h3>
-                                                                                <p class="ml-4">{{ cartItem.productName}}</p>
+
                                                                             </div>
-                                                                            <p class="mt-1 text-sm text-gray-500">{{ cartItem.productName}}</p>
                                                                         </div>
                                                                         <div class="flex flex-1 items-end justify-between text-sm">
                                                                             <p class="text-gray-500">Qty {{ cartItem.amount }}</p>
@@ -487,6 +484,7 @@ const cancelSearch = () => {
 const cartNavigation = {
     Carts: usePage().props.cart
 }
+
 </script>
 <script>
 import {usePage} from "@inertiajs/vue3";
