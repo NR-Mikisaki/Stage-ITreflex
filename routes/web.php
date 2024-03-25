@@ -9,8 +9,12 @@ use App\Http\Controllers\ProductsController;
 
 use Inertia\Inertia;
 
-Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('Home');
-Route::get('/company', [\App\Http\Controllers\CompanyController::class, 'index'])->name('company');
+Route::get('/home', function () {
+    $products = \App\Models\Product::all();
+    return Inertia::render('Home', [
+        'products' => $products,
+    ]);
+});Route::get('/company', [\App\Http\Controllers\CompanyController::class, 'index'])->name('company');
 
 Route::get('/', function () {
     return Inertia::render('Home', [
@@ -30,7 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
+Route::get('/products', [ProductsController::class, 'index']);
+
+// Removed redundant /home route definition
 
 Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
