@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
-class CartItem
+class CartItem extends Model
 {
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'amount','product_id'
+        'amount','product_id',''
     ];
+    public function Cartproducts()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

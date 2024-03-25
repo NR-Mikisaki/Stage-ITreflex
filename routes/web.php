@@ -43,4 +43,6 @@ Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
 
+route::get('/cart_items', [\app\http\controllers\CartItemController::class, 'index']) ->name('cartItems.index');
+
 require __DIR__.'/auth.php';
