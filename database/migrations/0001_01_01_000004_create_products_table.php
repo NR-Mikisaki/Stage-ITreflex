@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->double('price');
+            $table->string('imagesrc');
             $table->unsignedBigInteger('subcategory_id');
             $table->foreign('subcategory_id')->references('id')->
             on('subcategories')->onDelete('cascade');

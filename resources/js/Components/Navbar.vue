@@ -1,6 +1,6 @@
 <template>
     <!-- Mobile menu -->
-    <top></top>
+    <top class="z-40"></top>
     <TransitionRoot as="template" :show="open">
         <Dialog as="div" class="relative z-40 lg:hidden" @close="open = false">
             <TransitionChild
@@ -60,7 +60,7 @@
                                     </Tab>
                                 </TabList>
                             </div>
-                            <TabPanels as="template">
+                            <TabPanels as="template" class="z-40">
                                 <div class="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
                                     <TabPanel v-for="category in navigation.categories" :key="category.name"
                                               class="space-y-10 px-4 pb-8 pt-10">
@@ -74,13 +74,13 @@
                                                 </div>
                                                 <a :href="subcategories.href"
                                                    class="mt-6 block font-medium text-gray-900">
-                                                    <span class="absolute inset-0 z-10" aria-hidden="true"/>
+                                                    <span class="absolute inset-0 z-40" aria-hidden="true"/>
                                                     {{ subcategories.name }}
                                                 </a>
                                                 <p aria-hidden="true" class="mt-1">Shop now</p>
                                             </div>
                                         </div>
-                                        <div v-for="category in categories" :key="category.name">
+                                        <div v-for="category in categories" :key="category.name" class="z-40">
                                             <p :id="`${category.id}-${category.id}-heading-mobile`"
                                                class="font-medium text-gray-900">{{ category.name }}</p>
                                             <ul role="list"
@@ -132,7 +132,7 @@
         </Dialog>
     </TransitionRoot>
 
-    <header class="relative bg-white">
+    <header class="relative bg-white z-50">
 
 
         <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -160,7 +160,7 @@
                             <popover class="flex">
                                 <div class="relative flex">
                                     <popover-button @click="categoriesOpen = !categoriesOpen"
-                                                    :class="[categoriesOpen ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-900', 'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out']">
+                                                    :class="[categoriesOpen ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-900', 'relative z-40 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out']">
                                         Categories
                                     </popover-button>
                                 </div>
@@ -203,10 +203,11 @@
                                     </PopoverPanel>
                                 </transition>
                             </popover>
-                            <a v-for="page in navigation.pages" :key="page.name" :href="page.href"
-                               class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{{
-                                    page.name
-                                }}</a>
+                            <Link :href="route('catalogue')"
+                               class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                                Catalogue
+                            </Link>
+
                         </div>
                     </PopoverGroup>
 
@@ -241,12 +242,12 @@
 
                         <!-- Search Popup -->
                         <TransitionRoot as="template" :show="searchbarOpen">
-                            <Dialog as="div" class="relative z-10" @close="searchbarOpen = false">
+                            <Dialog as="div" class="relative z-40" @close="searchbarOpen = false">
                                 <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                                 </TransitionChild>
 
-                                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                                <div class="fixed inset-0 z-40 w-screen overflow-y-auto">
                                     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                                         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                                             <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
@@ -459,4 +460,7 @@ export default {
 
 <style scoped>
 /* Your scoped CSS styles here */
+.z-50 {
+    z-index: 50;
+}
 </style>

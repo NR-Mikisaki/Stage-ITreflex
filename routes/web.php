@@ -14,8 +14,9 @@ Route::get('/home', function () {
     return Inertia::render('Home', [
         'products' => $products,
     ]);
-});Route::get('/company', [\App\Http\Controllers\CompanyController::class, 'index'])->name('company');
-
+});
+Route::get('/company', [\App\Http\Controllers\CompanyController::class, 'index'])->name('company');
+Route::get('/catalogue', [\App\Http\Controllers\CatalogueController::class, 'index'])->name('catalogue');
 Route::get('/', function () {
     return Inertia::render('Home', [
         'canLogin' => Route::has('login'),

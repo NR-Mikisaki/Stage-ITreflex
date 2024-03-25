@@ -51,21 +51,24 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'Jack and Jones T-shirt',
                     'price' => 49.99,
-                    'subcategory_id'=>6
+                    'subcategory_id'=>6,
+                    'imagesrc'=>'https://glitterdesign.be/wp-content/uploads/2023/02/crew-neck-male-tshirt-front-01-blauw-ronde-hals.jpg'
                 ]
             ],
             'Brown_shorts' => [
                 [
                     'name' => 'Brown Shorts',
                     'price' => 22.99,
-                    'subcategory_id'=>3
+                    'subcategory_id'=>3,
+                    'imagesrc'=>'https://n.nordstrommedia.com/id/sr3/87ad520d-9cb6-4246-9955-3129e226121b.jpeg?h=365&w=240&dpr=2'
                 ]
             ],
             'Cool_glasses' =>[
                 [
                     'name' =>'Gucci glasses',
                     'price' => 299.99,
-                    'subcategory_id'=>12
+                    'subcategory_id'=>12,
+                    'imagesrc'=>'https://pretavoir.us/cdn/shop/files/gucci-gg1448o-001-hd-1.jpg?v=1697035144'
                 ]
             ]
 
@@ -107,7 +110,8 @@ class DatabaseSeeder extends Seeder
                 Product::factory()->create([
                     'name' => $details['name'],
                     'price' => $details['price'],
-                    'subcategory_id'=> $details['subcategory_id']
+                    'subcategory_id'=> $details['subcategory_id'],
+                    'imagesrc'=>$details['imagesrc']
                 ]);
             }
         }

@@ -14,6 +14,7 @@ class Product extends Model
         'name',
         'subcategory_id',
         'price',
+        'imagesrc'
     ];
     public function Subcategory()
     {
