@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 
@@ -70,6 +73,56 @@ class DatabaseSeeder extends Seeder
             ]
 
         ];
+        $carts = [
+            'cart_1'=>[
+                [
+                    'totalPrice'=>10,
+                    'user_id'=>1,
+                ]
+            ],
+            'cart_2'=>[
+        [
+            'totalPrice'=>9,
+            'user_id'=>1,
+        ]
+                ],
+            'cart_3'=>[
+                [
+                    'totalPrice'=>14,
+                    'user_id'=>2,
+                ]
+            ]
+
+
+        ];
+        $users =[
+            'user1'=>[[
+                'name'=>'koen',
+                'email'=>'koen@koen.be',
+                'password'=>'koenkoen'
+            ]],
+            'user2'=>[[
+                'name'=>'patje',
+                'email'=>'patje@patje.be',
+                'password'=>'patjepatje'
+            ]]
+        ];
+        $cartitems=[
+            'cart1'=>[[
+                'amount'=>2,
+                'product_id'=>2,
+                'cart_id'=>1,
+                'productName'=>'e'
+
+            ]],
+            'cart2'=>[[
+                'amount'=>1,
+                'product_id'=>1,
+                'cart_id'=>2,
+                'productName'=>'b'
+
+            ]]
+        ];
         foreach ($Categories as $CategoryName)
         {
             Category::factory()->create([
@@ -108,6 +161,34 @@ class DatabaseSeeder extends Seeder
                     'name' => $details['name'],
                     'price' => $details['price'],
                     'subcategory_id'=> $details['subcategory_id']
+                ]);
+            }
+        }
+        foreach ($users as $username=> $userdetails){
+            foreach ($userdetails as $details) {
+                User::factory()->create([
+                    'name' => $details['name'],
+                    'email'=>$details['email'],
+                    'password'=>$details['password']
+            ]);
+            }
+        }
+        foreach ($carts as $cartname => $cartdetails)
+        {
+            foreach ($cartdetails as $details){
+                Cart::factory()->create([
+                    'totalPrice'=>$details['totalPrice'],
+                    'user_id'=>$details['user_id']
+                ]);
+            }
+        }
+        foreach ($cartitems as $cartitemname =>$cartitemdetails){
+            foreach ($cartitemdetails as $details){
+                CartItem::factory()->create([
+                'amount'=>$details['amount'],
+                'product_id'=>$details['product_id'],
+                'cart_id'=>$details['cart_id'],
+                    'productName'=>$details['productName'],
                 ]);
             }
         }

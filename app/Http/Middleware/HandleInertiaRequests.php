@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -42,7 +43,11 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'categories' => Category::with('subcategories')->get(),
-
+            'cart' => Cart::with('CartItems')->get(),
         ];
+    }
+    public function shareCart(Request $request)
+    {
+
     }
 }
