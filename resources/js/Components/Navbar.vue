@@ -267,7 +267,7 @@
                                                 </div>
                                                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 items-center h-10">
-                                                        <button type="button" class="mt-3 inline-flex justify-center rounded-md bg-white h-full px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm  hover:bg-gray-50 sm:mt-0 sm:w-auto" style="padding: 0 6px;" @click="cancelSearch,searchbarOpen=false">Cancel</button>
+                                                        <button type="button" class="mt-3 inline-flex justify-center rounded-md bg-white h-full px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm  hover:bg-gray-50 sm:mt-0 sm:w-auto" style="padding: 0 6px;" @click="cancelSearch, searchbarOpen=false">Cancel</button>
                                                         <input type="text" v-model="searchQuery" placeholder="Search products..." class="mt-3 flex-grow block w-200 h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" style="padding: 0 8px;">
                                                     </div>
 
@@ -330,23 +330,21 @@
                                         leave-to="translate-x-full"
                                         :show="cart"
                                     >
-                                        <DialogPanel
-                                            class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl"
-                                        >
-                                            <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                                        <DialogPanel>
+                                            <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl" >
                                                 <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                                                     <div class="flex items-start justify-between">
                                                         <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
                                                         <div class="ml-3 flex h-7 items-center">
-                                                            <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @click="open = false">
+                                                            <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @close="cart = false">
                                                                 <span class="absolute -inset-0.5" />
                                                                 <span class="sr-only">Close panel</span>
-                                                                <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                                                                <XIcon class="h-6 w-6" aria-hidden="true" />
                                                             </button>
                                                         </div>
                                                     </div>
 
-                                                    <div class="mt-8">
+                                                    <div class="mt-8"  v-if="$page.props.auth.user">
                                                         <div class="flow-root">
                                                             <ul role="list" class="-my-6 divide-y divide-gray-200 z-50">
                                                                 <li v-for="cartItem in cartNavigation.Carts[0].cart_items" :key="cartItem.id" class="flex py-6">
@@ -356,14 +354,14 @@
                                                                                 <h3>
                                                                                     <Link :href="route('dashboard')">{{ cartItem.productName}} </Link>
                                                                                 </h3>
-
+                                                                                <p class="ml-4">{{cartItem.productPrice}}</p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="flex flex-1 items-end justify-between text-sm">
-                                                                            <p class="text-gray-500">Qty {{ cartItem.amount }}</p>
+                                                                            <number-input></number-input>
 
                                                                             <div class="flex">
-                                                                                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                                                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="removeItemFromCart(cartItem.id)">Remove</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -373,10 +371,10 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+                                                <div class="border-t border-gray-200 px-4 py-6 sm:px-6" >
                                                     <div class="flex justify-between text-base font-medium text-gray-900">
                                                         <p>Subtotal</p>
-                                                        <p>$262.00</p>
+                                                        <p  v-if="$page.props.auth.user" >$ {{totalCartPrice}}</p>
                                                     </div>
                                                     <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                                     <div class="mt-6">
@@ -406,10 +404,12 @@
 </template>
 
 <script setup>
+
 import Top from "@/Components/Top.vue"
 import FlyoutMenu from "@/Components/FlyoutMenu.vue"
+import NumberInput from "@/Components/NumberInput.vue";
 import {computed, onMounted, ref} from 'vue'
-import {Link, usePage} from '@inertiajs/vue3'
+import {Link, router, usePage} from '@inertiajs/vue3'
 import {
     Dialog,
     DialogPanel, DialogTitle,
@@ -428,7 +428,6 @@ import {
 import {MenuIcon, ShoppingBagIcon, SearchIcon, XIcon} from '@heroicons/vue/outline'
 import Navbar from "@/Components/Navbar.vue";
 import {ChevronDownIcon} from "@heroicons/vue/solid";
-
 const open = ref(false)
 const cart = ref(false)
 const isLoggedIn = ref(false)
@@ -484,6 +483,26 @@ const cancelSearch = () => {
 const cartNavigation = {
     Carts: usePage().props.cart
 }
+const totalCartPrice = computed(() => {
+    let totalPrice = 0;
+    if (cartNavigation.Carts[0].cart_items) {
+        cartNavigation.Carts[0].cart_items.forEach(item => {
+            totalPrice += item.productPrice * item.amount;
+        });
+    }
+    return totalPrice.toFixed(2);
+});
+const currentUser ={
+    users: usePage().props.user
+}
+function removeItemFromCart(cartItemId) {
+    router.delete(`/cartitems/${cartItemId}`, {
+        onBefore: () => confirm('Are you sure you want to delete this cart item?'),
+        onSuccess: () => router.visit('/',{
+            preserveState :true
+        })
+    });
+}
 
 </script>
 <script>
@@ -515,10 +534,15 @@ export default {
     methods: {
         cancelSearch() {
             this.searchQuery = '';
-        }
+        },
+
+
+
     },
 
 };
+
+
 </script>
 
 <style scoped>
