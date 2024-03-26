@@ -407,7 +407,7 @@
 
 import Top from "@/Components/Top.vue"
 import FlyoutMenu from "@/Components/FlyoutMenu.vue"
-import NumberInput from "@/Components/NumberInput.vue";
+import NumberInput from "@/Components/NumberINput.vue";
 import {computed, onMounted, ref} from 'vue'
 import {Link, router, usePage} from '@inertiajs/vue3'
 import {
