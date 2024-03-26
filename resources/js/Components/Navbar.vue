@@ -341,7 +341,7 @@
                                                             <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @click="open = false">
                                                                 <span class="absolute -inset-0.5" />
                                                                 <span class="sr-only">Close panel</span>
-                                                                <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                                                                <XIcon class="h-6 w-6" aria-hidden="true" />
                                                             </button>
                                                         </div>
                                                     </div>
@@ -409,7 +409,7 @@
 import Top from "@/Components/Top.vue"
 import FlyoutMenu from "@/Components/FlyoutMenu.vue"
 import {computed, onMounted, ref} from 'vue'
-import {Link, usePage} from '@inertiajs/vue3'
+import {Link, router, usePage} from '@inertiajs/vue3'
 import {
     Dialog,
     DialogPanel, DialogTitle,
@@ -428,7 +428,22 @@ import {
 import {MenuIcon, ShoppingBagIcon, SearchIcon, XIcon} from '@heroicons/vue/outline'
 import Navbar from "@/Components/Navbar.vue";
 import {ChevronDownIcon} from "@heroicons/vue/solid";
+import axios from "axios";
+import {data} from "autoprefixer";
+const products = ref([]);
+const loading = ref(true);
 
+onMounted(async () => {
+    try {
+        const res = await fetch('/products');
+        const data = await res.json();
+        products.value = data;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        loading.value = false;
+    }
+});
 const open = ref(false)
 const cart = ref(false)
 const isLoggedIn = ref(false)
@@ -446,22 +461,7 @@ const navigation = {
     categories: usePage().props.categories
 }
 
-const products = ref([])
 
-// Define the fetchProducts function
-const fetchProducts = async () => {
-    try {
-        const response = await axios.get('/products')
-        products.value = response.data
-    } catch (error) {
-        console.error('Error fetching products:', error)
-    }
-}
-
-// Call fetchProducts when the component is mounted
-onMounted(() => {
-    fetchProducts()
-})
 
 const searchQuery = ref('')
 
@@ -488,8 +488,12 @@ const cartNavigation = {
 </script>
 <script>
 import {usePage} from "@inertiajs/vue3";
+import {onMounted, ref} from "vue";
+
+
 
 export default {
+
 
     data() {
         return {
@@ -499,12 +503,12 @@ export default {
     computed: {
         filteredProducts() {
 
-            if (usePage().props.products && usePage().props.products && Array.isArray(usePage().props.products)) {
+            if (products && products && Array.isArray(products)) {
                 if (!this.searchQuery) {
-                    return usePage().props.products;
+                    return products;
                 } else {
                     // Filter products whose names start with the entered letter
-                    return usePage().props.products.filter(product => product.name.toLowerCase().startsWith(this.searchQuery.toLowerCase()));
+                    return products.filter(product => product.name.toLowerCase().startsWith(this.searchQuery.toLowerCase()));
                 }
             } else {
                 // Handle case where products are not available
