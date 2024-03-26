@@ -1,6 +1,6 @@
 <template>
     <head title="HOME PAGE"></head>
-    <navbar ></navbar>
+    <navbar :products= ></navbar>
 </template>
 
 <style scoped>
