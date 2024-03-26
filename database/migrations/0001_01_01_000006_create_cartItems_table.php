@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('productName');
             $table->foreign('productName')->references('name')->
             on('products')->onDelete('cascade');
+            $table->double('productPrice');
+            $table->foreign('productPrice')->references('price')->
+            on('products')->onDelete('cascade');
         });
 
 

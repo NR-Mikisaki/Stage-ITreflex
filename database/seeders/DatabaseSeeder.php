@@ -130,19 +130,22 @@ class DatabaseSeeder extends Seeder
             'cartitem1'=>[[
                 'amount'=>2,
                 'cart_id'=>1,
-                'productName'=>'Jack and Jones T-shirt'
+                'productName'=>'Jack and Jones T-shirt',
+                'productPrice'=>49.99
 
             ]],
             'cartitem2'=>[[
                 'amount'=>1,
                 'cart_id'=>2,
-                'productName'=>'Brown Shorts'
+                'productName'=>'Brown Shorts',
+                'productPrice'=>22.99
 
             ]],
             'cartitem3'=>[[
                 'amount'=>2,
                 'cart_id'=>1,
-                'productName'=>'Jack and Jones Trousers'
+                'productName'=>'Jack and Jones Trousers',
+                'productPrice'=>69.99
 
             ]],
         ];
@@ -212,6 +215,7 @@ class DatabaseSeeder extends Seeder
                 'amount'=>$details['amount'],
                 'cart_id'=>$details['cart_id'],
                     'productName'=>$details['productName'],
+                    'productPrice'=>$details['productPrice'],
                 ]);
             }
         }

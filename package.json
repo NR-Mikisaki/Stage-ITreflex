@@ -18,9 +18,10 @@
         "postcss": "^8.4.31",
         "tailwindcss": "^3.2.1",
         "vite": "^5.0",
-        "vue": "^3.4.0"
+        "vue": "^3.4.21"
     },
     "dependencies": {
+        "@chenfengyuan/vue-number-input": "^2.0.1",
         "@headlessui/vue": "^1.7.19",
         "@heroicons/vue": "^1.0.6"
     }
