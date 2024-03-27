@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
         $SubcategoryClothing = [
             'Tops',
             'Dresses',
@@ -191,6 +192,9 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+        Product::factory()
+            ->count(50)
+            ->create();
         foreach ($users as $username=> $userdetails){
             foreach ($userdetails as $details) {
                 User::factory()->create([
@@ -200,6 +204,9 @@ class DatabaseSeeder extends Seeder
             ]);
             }
         }
+        User::factory()
+            ->count(50)
+            ->create();
         foreach ($carts as $cartname => $cartdetails)
         {
             foreach ($cartdetails as $details){

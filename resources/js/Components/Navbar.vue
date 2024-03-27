@@ -276,7 +276,7 @@
                                                     <div class="mt-2 w-full">
                                                         <div v-if="filteredProducts.length > 0">
                                                             <ul class="divide-y divide-gray-200">
-                                                                <li v-for="product in filteredProducts" :key="product.id" class="py-2">
+                                                                <li v-for="product in filteredProducts.slice(0, 5)" :key="product.id" class="py-2">
                                                                     <p>{{ product.name }}</p>
                                                                 </li>
                                                             </ul>
@@ -445,23 +445,10 @@ const navigation = {
     categories: usePage().props.categories
 }
 
-const products = ref([])
-
 // Define the fetchProducts function
-const fetchProducts = async () => {
-    try {
-        const response = await axios.get('/products')
-        products.value = response.data
-    } catch (error) {
-        console.error('Error fetching products:', error)
-    }
-}
-
-// Call fetchProducts when the component is mounted
-onMounted(() => {
-    fetchProducts()
-})
-
+const products = ref([]);
+const loading = ref(true);
+let url = '/products'
 const searchQuery = ref('')
 
 // Define filteredProducts computed property and cancelSearch method
@@ -477,6 +464,17 @@ const filteredProducts = computed(() => {
     }
 })
 
+onMounted(async () => {
+    try {
+        const res = await fetch('/products');
+        const data = await res.json();
+        products.value = data;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        loading.value = false;
+    }
+});
 const cancelSearch = () => {
     searchQuery.value = '';
 }

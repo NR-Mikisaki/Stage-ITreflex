@@ -37,12 +37,10 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/products', [ProductsController::class, 'index']);
 
-// Removed redundant /home route definition
-
 Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
 
-route::get('/cart_items', [\app\http\controllers\CartItemController::class, 'index']) ->name('cartItems.index');
-
+route::get('/cartitems', [\app\http\controllers\CartItemController::class, 'index']) ->name('cartItems.index');
+route::delete('/cartitems/{cart_item}',[\App\Http\Controllers\CartItemController::class, 'destroy'])->name('cartitem.destroy');
 require __DIR__.'/auth.php';
