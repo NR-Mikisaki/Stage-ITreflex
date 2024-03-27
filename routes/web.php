@@ -35,18 +35,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/products', [ProductsController::class, 'index',
-    'products'=> \App\Models\Product::all()
-]);
-Route::get('/navbar',[\App\Http\Controllers\NavbarController::class, 'index',
-    ]);
+Route::get('/products', [ProductsController::class, 'index']);
 
 // Removed redundant /home route definition
 
 Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
-Route::get('/navbar', [\App\Http\Controllers\NavbarController::class, 'index'])->name('navbar.index');
+
 route::get('/cart_items', [\app\http\controllers\CartItemController::class, 'index']) ->name('cartItems.index');
 
 require __DIR__.'/auth.php';
