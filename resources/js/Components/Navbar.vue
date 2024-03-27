@@ -471,7 +471,7 @@ const filteredProducts = computed(() => {
         if (!searchQuery.value) {
             return products.value;
         } else {
-            return products.value.filter(product => product.name.toLowerCase().startsWith(searchQuery.value.toLowerCase()));
+            return products.value.filter(product => product.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
         }
     } else {
         return [];
