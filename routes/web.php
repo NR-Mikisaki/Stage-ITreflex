@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -43,6 +44,6 @@ Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
 
-route::get('/cart_items', [\app\http\controllers\CartItemController::class, 'index']) ->name('cartItems.index');
-
+route::get('/cartitems', [CartItemController::class, 'index']) ->name('cartItems.index');
+Route::delete('/cartitems/{cart_item}', [CartItemController::class, 'destroy'])->name('cartitem.destroy');
 require __DIR__.'/auth.php';
