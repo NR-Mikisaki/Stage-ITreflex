@@ -346,9 +346,9 @@
 
                                                     <div class="mt-8"  v-if="$page.props.auth.user">
                                                         <div class="flow-root">
-                                                            <ul v-if="cartNavigation.Carts && cartNavigation.Carts.length > 0" role="list" class="-my-6 divide-y divide-gray-200 z-50">
-                                                                <li v-for="cartItem in cartNavigation.Carts[0].cart_items" :key="cartItem.id" class="flex py-6">
-                                                                    <div class="ml-4 flex flex-1 flex-col">
+                                                            <ul v-if="cartNavigation.carts && cartNavigation.carts.length > 0" role="list" class="-my-6 divide-y divide-gray-200 z-50">
+                                                                <li v-for="cartItem in cartNavigation.carts[0].cart_items" :key="cartItem.id" class="flex py-6">
+                                                                    <div class="ml-4 flex flex-1 flex-col ">
                                                                         <div>
                                                                             <div class="flex justify-between text-base font-medium text-gray-900">
                                                                                 <h3>
@@ -485,14 +485,6 @@ const totalCartPrice = computed(() => {
     return totalPrice.toFixed(2);
 });
 
-const removeItemFromCart = (cartItemId) => {
-    router.delete(`/cartitems/${cartItemId}`, {
-        onBefore: () => confirm('Are you sure you want to delete this cart item?'),
-        onSuccess: () => router.visit('/', {
-            preserveState: true
-        })
-    });
-}
 const destroy = (cartItemId)=>{
     if(confirm('Are you sure you want to delete this cart item?')){
         this.$inertia.delete(`/cartitems/${cartItemId}`)

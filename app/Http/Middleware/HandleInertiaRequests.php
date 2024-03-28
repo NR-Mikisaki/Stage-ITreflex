@@ -35,7 +35,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $cart = Auth::check() ? Cart::with('cartItems')->where('user_id', Auth::id())->get() : [];
+
 
         return [
             ...parent::share($request),
@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'categories' => Category::with('subcategories')->get(),
-            'cart' => $cart,
+            'cart' => Auth::check() ? Cart::with('cartItems')->where('user_id', Auth::id())->get() : [],
         ];
     }
     public function shareCart(Request $request)

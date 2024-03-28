@@ -144,7 +144,7 @@ class DatabaseSeeder extends Seeder
             ]],
             'cartitem3'=>[[
                 'amount'=>2,
-                'cart_id'=>1,
+                'cart_id'=>3,
                 'productName'=>'Jack and Jones Trousers',
                 'productPrice'=>69.99
 
