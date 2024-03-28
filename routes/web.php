@@ -6,9 +6,12 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
+use Illuminate\Support\Facades\DB;
 
 use Inertia\Inertia;
+Route::get('/products/paginate_index',function (){
 
+});
 Route::get('/home', function () {
     $products = \App\Models\Product::all();
     return Inertia::render('Home', [
@@ -40,7 +43,6 @@ Route::get('/products/paginate_index',[ProductsController::class, 'paginate_inde
 Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
-
 route::get('/cartitems', [\app\http\controllers\CartItemController::class, 'index']) ->name('cartItems.index');
 route::delete('/cartitems/{cart_item}',[\App\Http\Controllers\CartItemController::class, 'destroy'])->name('cartitem.destroy');
 require __DIR__.'/auth.php';
