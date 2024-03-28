@@ -305,7 +305,7 @@
 
                         </div>
                         <TransitionRoot as="template" :show="cart">
-                            <Dialog as="div" class="relative z-40 "@close="cart = false">
+                            <Dialog as="div" class="relative z-40 " @close="cart = false">
                                 <TransitionChild
                                     as="template"
                                     enter="transition-opacity ease-linear duration-300"
@@ -404,15 +404,13 @@
 </template>
 
 <script setup>
-
-import Top from "@/Components/Top.vue"
-import FlyoutMenu from "@/Components/FlyoutMenu.vue"
-import NumberInput from "@/Components/NumberINput.vue";
-import {computed, onMounted, ref} from 'vue'
-import {Link, router, usePage} from '@inertiajs/vue3'
+import { ref, computed, watch, onMounted } from 'vue'
+import { Link, router, usePage } from '@inertiajs/vue3'
+import { debounce } from 'lodash'
 import {
     Dialog,
-    DialogPanel, DialogTitle,
+    DialogPanel,
+    DialogTitle,
     Popover,
     PopoverButton,
     PopoverGroup,
@@ -425,121 +423,85 @@ import {
     TransitionChild,
     TransitionRoot,
 } from '@headlessui/vue'
-import {MenuIcon, ShoppingBagIcon, SearchIcon, XIcon} from '@heroicons/vue/outline'
-import Navbar from "@/Components/Navbar.vue";
-import {ChevronDownIcon} from "@heroicons/vue/solid";
+import { MenuIcon, ShoppingBagIcon, SearchIcon, XIcon } from '@heroicons/vue/outline'
+
 const open = ref(false)
 const cart = ref(false)
 const isLoggedIn = ref(false)
 const searchbarOpen = ref(false)
 const categoriesOpen = ref(false)
-
-const openRegistrationModal = () => {
-    window.location.href = '/registration-page'
-}
-const openLoginModal = () => {
-    window.location.href = '/login-page'
-}
+const searchQuery = ref('')
+const products = ref([])
+const loading = ref(true)
 
 const navigation = {
     categories: usePage().props.categories
 }
 
-// Define the fetchProducts function
-const products = ref([]);
-const loading = ref(true);
-let url = '/products'
-const searchQuery = ref('')
-
-// Define filteredProducts computed property and cancelSearch method
-const filteredProducts = computed(() => {
-    if (products.value && products.value.length > 0) {
-        if (!searchQuery.value) {
-            return products.value;
-        } else {
-            return products.value.filter(product => product.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
-        }
-    } else {
-        return [];
-    }
-})
-
-onMounted(async () => {
-    try {
-        const res = await fetch('/products');
-        const data = await res.json();
-        products.value = data;
-    } catch (error) {
-        console.error(error);
-    } finally {
-        loading.value = false;
-    }
-});
-const cancelSearch = () => {
-    searchQuery.value = '';
-}
 const cartNavigation = {
-    Carts: usePage().props.cart
+    carts: usePage().props.cart
 }
+
+const currentUser = {
+    users: usePage().props.user
+}
+
+const fetchProducts = async () => {
+    // Fetch only if searchQuery is not empty
+    if (searchQuery.value) {
+        loading.value = true;
+        try {
+            const res = await fetch(`/products/index?search=${searchQuery.value}`);
+            const data = await res.json();
+            products.value = data;
+        } catch (error) {
+            console.error(error);
+        } finally {
+            loading.value = false;
+        }
+    }
+};
+
+const filteredProducts = computed(() => {
+    return products.value;
+});
+
+watch(searchQuery, debounce(function (value) {
+    fetchProducts()
+}, 500));
+
+onMounted(fetchProducts);
+
 const totalCartPrice = computed(() => {
     let totalPrice = 0;
-    if (cartNavigation.Carts[0].cart_items) {
-        cartNavigation.Carts[0].cart_items.forEach(item => {
+    if (cartNavigation.carts[0].cart_items) {
+        cartNavigation.carts[0].cart_items.forEach(item => {
             totalPrice += item.productPrice * item.amount;
         });
     }
     return totalPrice.toFixed(2);
 });
-const currentUser ={
-    users: usePage().props.user
-}
-function removeItemFromCart(cartItemId) {
+
+const removeItemFromCart = (cartItemId) => {
     router.delete(`/cartitems/${cartItemId}`, {
         onBefore: () => confirm('Are you sure you want to delete this cart item?'),
-        onSuccess: () => router.visit('/',{
-            preserveState :true
+        onSuccess: () => router.visit('/', {
+            preserveState: true
         })
     });
 }
 
-</script>
-<script>
-import {usePage} from "@inertiajs/vue3";
+const openRegistrationModal = () => {
+    window.location.href = '/registration-page'
+}
 
-export default {
+const openLoginModal = () => {
+    window.location.href = '/login-page'
+}
 
-    data() {
-        return {
-            searchQuery: '',
-        };
-    },
-    computed: {
-        filteredProducts() {
-
-            if (usePage().props.products && usePage().props.products && Array.isArray(usePage().props.products)) {
-                if (!this.searchQuery) {
-                    return usePage().props.products;
-                } else {
-                    // Filter products whose names start with the entered letter
-                    return usePage().props.products.filter(product => product.name.toLowerCase().startsWith(this.searchQuery.toLowerCase()));
-                }
-            } else {
-                // Handle case where products are not available
-                return [];
-            }
-        }
-    },
-    methods: {
-        cancelSearch() {
-            this.searchQuery = '';
-        },
-
-
-
-    },
-
+const cancelSearch = () => {
+    searchQuery.value = '';
 };
-
 
 </script>
 

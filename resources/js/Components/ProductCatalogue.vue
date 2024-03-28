@@ -65,7 +65,7 @@ const loading = ref(true);
 
 onMounted(async () => {
     try {
-        const res = await fetch('/products');
+        const res = await fetch('/products/index');
         products.value = await res.json();
     } catch (error) {
         console.error(error);

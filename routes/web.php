@@ -35,8 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/products', [ProductsController::class, 'index']);
-
+Route::get('/products/index', [ProductsController::class, 'index'])->name('products.index');
+Route::get('/products/paginate_index',[ProductsController::class, 'paginate_index'])->name('products.paginate');
 Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
