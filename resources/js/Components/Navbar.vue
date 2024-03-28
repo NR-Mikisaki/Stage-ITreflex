@@ -276,7 +276,7 @@
                                                     <div class="mt-2 w-full">
                                                         <div v-if="filteredProducts.length > 0">
                                                             <ul class="divide-y divide-gray-200">
-                                                                <li v-for="product in filteredProducts.slice(0, 5)" :key="product.id" class="py-2">
+                                                                <li v-for="product in filteredProducts" :key="product.id" class="py-2">
                                                                     <p>{{ product.name }}</p>
                                                                 </li>
                                                             </ul>
@@ -305,7 +305,7 @@
 
                         </div>
                         <TransitionRoot as="template" :show="cart">
-                            <Dialog as="div" class="relative z-40 " @close="cart = false">
+                            <Dialog as="div" class="relative z-40 "@close="cart = false">
                                 <TransitionChild
                                     as="template"
                                     enter="transition-opacity ease-linear duration-300"
@@ -336,7 +336,7 @@
                                                     <div class="flex items-start justify-between">
                                                         <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
                                                         <div class="ml-3 flex h-7 items-center">
-                                                            <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @close="cart = false">
+                                                            <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @click="cart = false">
                                                                 <span class="absolute -inset-0.5" />
                                                                 <span class="sr-only">Close panel</span>
                                                                 <XIcon class="h-6 w-6" aria-hidden="true" />
@@ -404,13 +404,15 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
-import { Link, router, usePage } from '@inertiajs/vue3'
-import { debounce } from 'lodash'
+
+import Top from "@/Components/Top.vue"
+import FlyoutMenu from "@/Components/FlyoutMenu.vue"
+import NumberInput from "@/Components/NumberINput.vue";
+import {computed, onMounted, ref} from 'vue'
+import {Link, router, usePage} from '@inertiajs/vue3'
 import {
     Dialog,
-    DialogPanel,
-    DialogTitle,
+    DialogPanel, DialogTitle,
     Popover,
     PopoverButton,
     PopoverGroup,
@@ -423,85 +425,123 @@ import {
     TransitionChild,
     TransitionRoot,
 } from '@headlessui/vue'
-import { MenuIcon, ShoppingBagIcon, SearchIcon, XIcon } from '@heroicons/vue/outline'
-
+import {MenuIcon, ShoppingBagIcon, SearchIcon, XIcon} from '@heroicons/vue/outline'
+import Navbar from "@/Components/Navbar.vue";
+import {ChevronDownIcon} from "@heroicons/vue/solid";
 const open = ref(false)
 const cart = ref(false)
 const isLoggedIn = ref(false)
 const searchbarOpen = ref(false)
 const categoriesOpen = ref(false)
-const searchQuery = ref('')
-const products = ref([])
-const loading = ref(true)
+
+const openRegistrationModal = () => {
+    window.location.href = '/registration-page'
+}
+const openLoginModal = () => {
+    window.location.href = '/login-page'
+}
 
 const navigation = {
     categories: usePage().props.categories
 }
 
-const cartNavigation = {
-    carts: usePage().props.cart
-}
+const products = ref([])
 
-const currentUser = {
-    users: usePage().props.user
-}
-
+// Define the fetchProducts function
 const fetchProducts = async () => {
-    // Fetch only if searchQuery is not empty
-    if (searchQuery.value) {
-        loading.value = true;
-        try {
-            const res = await fetch(`/products/index?search=${searchQuery.value}`);
-            const data = await res.json();
-            products.value = data;
-        } catch (error) {
-            console.error(error);
-        } finally {
-            loading.value = false;
-        }
+    try {
+        const response = await axios.get('/products/index')
+        products.value = response.data
+    } catch (error) {
+        console.error('Error fetching products:', error)
     }
-};
+}
 
-const filteredProducts = computed(() => {
-    return products.value;
-});
-
-watch(searchQuery, debounce(function (value) {
+// Call fetchProducts when the component is mounted
+onMounted(() => {
     fetchProducts()
-}, 500));
+})
 
-onMounted(fetchProducts);
+const searchQuery = ref('')
 
+// Define filteredProducts computed property and cancelSearch method
+const filteredProducts = computed(() => {
+    if (products.value && products.value.length > 0) {
+        if (!searchQuery.value) {
+            return products.value;
+        } else {
+            return products.value.filter(product => product.name.toLowerCase().startsWith(searchQuery.value.toLowerCase()));
+        }
+    } else {
+        return [];
+    }
+})
+
+const cancelSearch = () => {
+    searchQuery.value = '';
+}
+const cartNavigation = {
+    Carts: usePage().props.cart
+}
 const totalCartPrice = computed(() => {
     let totalPrice = 0;
-    if (cartNavigation.carts[0].cart_items) {
-        cartNavigation.carts[0].cart_items.forEach(item => {
+    if (cartNavigation.Carts[0].cart_items) {
+        cartNavigation.Carts[0].cart_items.forEach(item => {
             totalPrice += item.productPrice * item.amount;
         });
     }
     return totalPrice.toFixed(2);
 });
-
-const removeItemFromCart = (cartItemId) => {
+const currentUser ={
+    users: usePage().props.user
+}
+function removeItemFromCart(cartItemId) {
     router.delete(`/cartitems/${cartItemId}`, {
         onBefore: () => confirm('Are you sure you want to delete this cart item?'),
-        onSuccess: () => router.visit('/', {
-            preserveState: true
+        onSuccess: () => router.visit('/',{
+            preserveState :true
         })
     });
 }
 
-const openRegistrationModal = () => {
-    window.location.href = '/registration-page'
-}
+</script>
+<script>
+import {usePage} from "@inertiajs/vue3";
 
-const openLoginModal = () => {
-    window.location.href = '/login-page'
-}
+export default {
 
-const cancelSearch = () => {
-    searchQuery.value = '';
+    data() {
+        return {
+            searchQuery: '',
+        };
+    },
+    computed: {
+        filteredProducts() {
+
+            if (usePage().props.products && usePage().props.products && Array.isArray(usePage().props.products)) {
+                if (!this.searchQuery) {
+                    return usePage().props.products;
+                } else {
+                    // Filter products whose names start with the entered letter
+                    return usePage().props.products.filter(product => product.name.toLowerCase().startsWith(this.searchQuery.toLowerCase()));
+                }
+            } else {
+                // Handle case where products are not available
+                return [];
+            }
+        }
+    },
+    methods: {
+        cancelSearch() {
+            this.searchQuery = '';
+        },
+
+
+
+    },
+
 };
+
 
 </script>
 
