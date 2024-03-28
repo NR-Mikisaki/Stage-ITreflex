@@ -3,9 +3,11 @@
 namespace App\Http\Middleware;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -33,6 +35,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $cart = Auth::check() ? Cart::with('cartItems')->where('user_id', Auth::id())->get() : [];
+
         return [
             ...parent::share($request),
             'auth' => [
@@ -43,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'categories' => Category::with('subcategories')->get(),
-            'cart' => Cart::with('CartItems')->get(),
+            'cart' => $cart,
         ];
     }
     public function shareCart(Request $request)

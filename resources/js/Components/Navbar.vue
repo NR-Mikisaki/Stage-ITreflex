@@ -336,7 +336,7 @@
                                                     <div class="flex items-start justify-between">
                                                         <DialogTitle class="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
                                                         <div class="ml-3 flex h-7 items-center">
-                                                            <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @close="cart = false">
+                                                            <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @click="cart = false">
                                                                 <span class="absolute -inset-0.5" />
                                                                 <span class="sr-only">Close panel</span>
                                                                 <XIcon class="h-6 w-6" aria-hidden="true" />
@@ -346,7 +346,7 @@
 
                                                     <div class="mt-8"  v-if="$page.props.auth.user">
                                                         <div class="flow-root">
-                                                            <ul role="list" class="-my-6 divide-y divide-gray-200 z-50">
+                                                            <ul v-if="cartNavigation.Carts && cartNavigation.Carts.length > 0" role="list" class="-my-6 divide-y divide-gray-200 z-50">
                                                                 <li v-for="cartItem in cartNavigation.Carts[0].cart_items" :key="cartItem.id" class="flex py-6">
                                                                     <div class="ml-4 flex flex-1 flex-col">
                                                                         <div>
@@ -358,10 +358,10 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="flex flex-1 items-end justify-between text-sm">
-                                                                            <number-input></number-input>
+                                                                            <NumberINput></NumberINput>
 
                                                                             <div class="flex">
-                                                                                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="removeItemFromCart(cartItem.id)">Remove</button>
+                                                                                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="destroy(cartItem.id)">Remove</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -424,6 +424,9 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 import { MenuIcon, ShoppingBagIcon, SearchIcon, XIcon } from '@heroicons/vue/outline'
+import Top from "@/Components/Top.vue";
+import FlyoutMenu from "@/Components/FlyoutMenu.vue";
+import NumberINput from "@/Components/NumberINput.vue";
 
 const open = ref(false)
 const cart = ref(false)
@@ -439,7 +442,7 @@ const navigation = {
 }
 
 const cartNavigation = {
-    carts: usePage().props.cart
+    carts: usePage().props.cart ? usePage().props.cart : [{ cart_items: [] }]
 }
 
 const currentUser = {
@@ -474,7 +477,7 @@ onMounted(fetchProducts);
 
 const totalCartPrice = computed(() => {
     let totalPrice = 0;
-    if (cartNavigation.carts[0].cart_items) {
+    if (cartNavigation.carts && cartNavigation.carts.length > 0 && cartNavigation.carts[0].cart_items) {
         cartNavigation.carts[0].cart_items.forEach(item => {
             totalPrice += item.productPrice * item.amount;
         });
@@ -489,6 +492,14 @@ const removeItemFromCart = (cartItemId) => {
             preserveState: true
         })
     });
+}
+const destroy = (cartItemId)=>{
+    if(confirm('Are you sure you want to delete this cart item?')){
+        this.$inertia.delete(`/cartitems/${cartItemId}`)
+        router.visit(usePage().url,{
+            preserveState: true
+        })
+    }
 }
 
 const openRegistrationModal = () => {
