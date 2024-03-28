@@ -22,8 +22,7 @@ class productsController extends Controller
         return response()->json($products);
     }
     public function paginate_index():JsonResponse{
-        $products = DB::table('products')->paginate(15);
-
+        $products = DB::table('products')->paginate(16);
 
         return  response()->json($products);
     }
