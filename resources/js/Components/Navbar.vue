@@ -1,3 +1,4 @@
+
 <template>
     <!-- Mobile menu -->
     <top class="z-40"></top>
@@ -354,7 +355,7 @@
                                                                                 <h3>
                                                                                     <Link :href="route('dashboard')">{{ cartItem.productName}} </Link>
                                                                                 </h3>
-                                                                                <p class="ml-4">{{cartItem.productPrice}}</p>
+                                                                                <p class="ml-4">$ {{cartItem.productPrice}}</p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="flex flex-1 items-end justify-between text-sm">
@@ -374,11 +375,11 @@
                                                 <div class="border-t border-gray-200 px-4 py-6 sm:px-6" >
                                                     <div class="flex justify-between text-base font-medium text-gray-900">
                                                         <p>Subtotal</p>
-                                                        <p  v-if="$page.props.auth.user" >$ {{totalCartPrice}}</p>
+                                                        <p>$ {{totalCartPrice}}</p>
                                                     </div>
                                                     <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                                     <div class="mt-6">
-                                                        <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
+                                                        <Link :href="route('checkout')" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</Link>
                                                     </div>
                                                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                                                         <p>
@@ -402,7 +403,6 @@
         </nav>
     </header>
 </template>
-
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
@@ -436,13 +436,12 @@ const categoriesOpen = ref(false)
 const searchQuery = ref('')
 const products = ref([])
 const loading = ref(true)
-
 const navigation = {
     categories: usePage().props.categories
 }
 
 const cartNavigation = {
-    carts: usePage().props.cart ? usePage().props.cart : [{ cart_items: [] }]
+    carts: usePage().props.cart
 }
 
 const currentUser = {
@@ -474,7 +473,6 @@ watch(searchQuery, debounce(function (value) {
 }, 500));
 
 onMounted(fetchProducts);
-
 const totalCartPrice = computed(() => {
     let totalPrice = 0;
     if (cartNavigation.carts && cartNavigation.carts.length > 0 && cartNavigation.carts[0].cart_items) {
@@ -487,10 +485,8 @@ const totalCartPrice = computed(() => {
 
 const destroy = (cartItemId)=>{
     if(confirm('Are you sure you want to delete this cart item?')){
-        this.$inertia.delete(`/cartitems/${cartItemId}`)
-        router.visit(usePage().url,{
-            preserveState: true
-        })
+        router.delete(`/cartitems/${cartItemId}`);
+        router.reload()
     }
 }
 

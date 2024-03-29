@@ -1,17 +1,15 @@
 <?php
 
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
-use Illuminate\Support\Facades\DB;
 
 use Inertia\Inertia;
-Route::get('/products/paginate_index',function (){
 
-});
 Route::get('/home', function () {
     $products = \App\Models\Product::all();
     return Inertia::render('Home', [
@@ -32,6 +30,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Home');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/checkout',[\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [Profilecontroller::class, 'edit'])->name('profile.edit');
@@ -43,6 +42,7 @@ Route::get('/products/paginate_index',[ProductsController::class, 'paginate_inde
 Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
-route::get('/cartitems', [\app\http\controllers\CartItemController::class, 'index']) ->name('cartItems.index');
-route::delete('/cartitems/{cart_item}',[\App\Http\Controllers\CartItemController::class, 'destroy'])->name('cartitem.destroy');
+
+route::get('/cartitems', [CartItemController::class, 'index']) ->name('cartItems.index');
+Route::delete('/cartitems/{cart_item}', [CartItemController::class, 'destroy'])->name('cartitems.destroy');
 require __DIR__.'/auth.php';
