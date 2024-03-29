@@ -18,7 +18,21 @@ class CatalogueController extends Controller
 
 
         return Inertia::render('Catalogue', [
-            'products'=>Product::query()->paginate(16)
+            'products' => Product::query()
+                ->select(
+                    'products.id',
+                    'products.imagesrc',
+                    'products.name',
+                    'products.price',
+                    'products.subcategory_id',
+                    'products.color',
+                    'subcategories.name as category_name',
+                    'subcategories.id as category_id'
+                )
+                ->join('subcategories', 'products.subcategory_id', '=', 'subcategories.id')
+                ->orderBy('products.id')
+                ->paginate(64)
+                ->onEachSide(1)
         ]);
     }
 }

@@ -56,7 +56,9 @@ class DatabaseSeeder extends Seeder
                     'name' => 'Jack and Jones T-shirt',
                     'price' => 49.99,
                     'subcategory_id'=>6,
-                    'imagesrc'=>'https://glitterdesign.be/wp-content/uploads/2023/02/crew-neck-male-tshirt-front-01-blauw-ronde-hals.jpg'
+                    'imagesrc'=>'https://glitterdesign.be/wp-content/uploads/2023/02/crew-neck-male-tshirt-front-01-blauw-ronde-hals.jpg',
+                    'color'=>'blue',
+                    'category_id'=>'1',
                 ]
             ],
             'Brown_shorts' => [
@@ -64,7 +66,9 @@ class DatabaseSeeder extends Seeder
                     'name' => 'Brown Shorts',
                     'price' => 22.99,
                     'subcategory_id'=>3,
-                    'imagesrc'=>'https://n.nordstrommedia.com/id/sr3/87ad520d-9cb6-4246-9955-3129e226121b.jpeg?h=365&w=240&dpr=2'
+                    'imagesrc'=>'https://n.nordstrommedia.com/id/sr3/87ad520d-9cb6-4246-9955-3129e226121b.jpeg?h=365&w=240&dpr=2',
+                    'color'=>'brown',
+                    'category_id'=>'1',
                 ]
             ],
             'Cool_glasses' =>[
@@ -72,7 +76,9 @@ class DatabaseSeeder extends Seeder
                     'name' =>'Gucci glasses',
                     'price' => 299.99,
                     'subcategory_id'=>12,
-                    'imagesrc'=>'https://pretavoir.us/cdn/shop/files/gucci-gg1448o-001-hd-1.jpg?v=1697035144'
+                    'imagesrc'=>'https://pretavoir.us/cdn/shop/files/gucci-gg1448o-001-hd-1.jpg?v=1697035144',
+                    'color'=>'N/A',
+                    'category_id' =>2,
                 ]
             ],
             'JJ_Trousers'=>[
@@ -80,15 +86,19 @@ class DatabaseSeeder extends Seeder
                     'name'=>'Jack and Jones trousers',
                     'price'=>69.99,
                     'subcategory_id'=>3,
-                    'imagesrc'=>'https://images.jackjones.com/12193553/4241403/003/jackjones-slimfitchinobroek-grijs.jpg?v=8f67cee030faf9536c6ba839a86bc6e6&format=webp&width=1280&quality=90&key=25-0-3'
-                ]
+                    'imagesrc'=>'https://images.jackjones.com/12193553/4241403/003/jackjones-slimfitchinobroek-grijs.jpg?v=8f67cee030faf9536c6ba839a86bc6e6&format=webp&width=1280&quality=90&key=25-0-3',
+                    'color'=>'grey',
+                    'category_id'=>1,
+                    ]
             ],
             'JJ_Sweater'=>[
                 [
                     'name'=>'Jack and Jones sweater',
                     'price'=>119.99,
                     'subcategory_id'=>5,
-                    'imagesrc'=>'https://images.jackjones.com/12248431/4372306/001/jackjones-effensweatshirtmetrondehals-bruin.jpg?v=97229aa1df2cf0067acd3aa5026a3640&format=webp&width=1280&quality=90&key=25-0-3'
+                    'imagesrc'=>'https://images.jackjones.com/12248431/4372306/001/jackjones-effensweatshirtmetrondehals-bruin.jpg?v=97229aa1df2cf0067acd3aa5026a3640&format=webp&width=1280&quality=90&key=25-0-3',
+                    'color'=> 'brown',
+                    'category_id'=>1
                 ]
             ]
 
@@ -188,12 +198,14 @@ class DatabaseSeeder extends Seeder
                     'name' => $details['name'],
                     'price' => $details['price'],
                     'subcategory_id'=> $details['subcategory_id'],
-                    'imagesrc'=>$details['imagesrc']
+                    'category_id'=>$details['category_id'],
+                    'imagesrc'=>$details['imagesrc'],
+                    'color'=>$details['color'],
                 ]);
             }
         }
         Product::factory()
-            ->count(50)
+            ->count(500)
             ->create();
         foreach ($users as $username=> $userdetails){
             foreach ($userdetails as $details) {

@@ -23,4 +23,5 @@ class productsController extends Controller
         return response()->json($products);
     }
 
+
 }

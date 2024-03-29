@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('name')->index();
             $table->double('price')->index();
             $table->string('imagesrc');
+            $table->string('color');
             $table->unsignedBigInteger('subcategory_id');
             $table->foreign('subcategory_id')->references('id')->
             on('subcategories')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->
+            on('categories')->onDelete('cascade');
         });
 
 
