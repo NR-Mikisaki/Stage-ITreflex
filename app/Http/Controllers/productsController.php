@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 use function Laravel\Prompts\table;
 
 class productsController extends Controller
@@ -21,9 +22,5 @@ class productsController extends Controller
         // Return paginated products
         return response()->json($products);
     }
-    public function paginate_index():JsonResponse{
-        $products = DB::table('products')->paginate(16);
 
-        return  response()->json($products);
-    }
 }

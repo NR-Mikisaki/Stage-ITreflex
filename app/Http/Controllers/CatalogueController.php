@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\In;
@@ -17,7 +18,7 @@ class CatalogueController extends Controller
 
 
         return Inertia::render('Catalogue', [
-
+            'products'=>Product::query()->paginate(16)
         ]);
     }
 }
