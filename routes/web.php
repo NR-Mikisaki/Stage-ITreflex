@@ -43,6 +43,7 @@ Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
 
+route::get('/numberINput', [\App\Http\Controllers\NumberInputController::class,'amount']) ->name('numberINput.amount');
 route::get('/cartitems', [CartItemController::class, 'index']) ->name('cartItems.index');
 Route::delete('/cartitems/{cart_item}', [CartItemController::class, 'destroy'])->name('cartitems.destroy');
 require __DIR__.'/auth.php';
