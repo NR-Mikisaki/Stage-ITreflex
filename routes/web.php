@@ -30,6 +30,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Home');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/checkout',[\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [Profilecontroller::class, 'edit'])->name('profile.edit');
@@ -43,5 +44,5 @@ Route::post('/logout',[UserController::class, 'logout']);
 Route::post('/login',[UserController::class,'login']);
 
 route::get('/cartitems', [CartItemController::class, 'index']) ->name('cartItems.index');
-Route::delete('/cartitems/{cart_item}', [CartItemController::class, 'destroy'])->name('cartitem.destroy');
+Route::delete('/cartitems/{cart_item}', [CartItemController::class, 'destroy'])->name('cartitems.destroy');
 require __DIR__.'/auth.php';

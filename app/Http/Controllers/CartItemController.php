@@ -19,6 +19,7 @@ class CartItemController extends Controller
 
     }
     public function destroy(CartItem $cartItem){
+        info('hello');
         $cartItem->delete();
     }
 }

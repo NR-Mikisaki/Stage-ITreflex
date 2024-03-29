@@ -149,6 +149,27 @@ class DatabaseSeeder extends Seeder
                 'productPrice'=>69.99
 
             ]],
+            'cartitem4'=>[[
+                'amount'=>2,
+                'cart_id'=>3,
+                'productName'=>'Jack and Jones Trousers',
+                'productPrice'=>69.99
+
+            ]],
+            'cartitem5'=>[[
+                'amount'=>2,
+                'cart_id'=>3,
+                'productName'=>'Jack and Jones Trousers',
+                'productPrice'=>69.99
+
+            ]],
+            'cartitem6'=>[[
+                'amount'=>2,
+                'cart_id'=>3,
+                'productName'=>'Jack and Jones Trousers',
+                'productPrice'=>69.99
+
+            ]],
         ];
         foreach ($Categories as $CategoryName)
         {

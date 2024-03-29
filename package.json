@@ -23,6 +23,11 @@
     },
     "dependencies": {
         "@chenfengyuan/vue-number-input": "^2.0.1",
+        "@fortawesome/fontawesome-svg-core": "^6.5.1",
+        "@fortawesome/free-brands-svg-icons": "^6.5.1",
+        "@fortawesome/free-regular-svg-icons": "^6.5.1",
+        "@fortawesome/free-solid-svg-icons": "^6.5.1",
+        "@fortawesome/vue-fontawesome": "^3.0.6",
         "@headlessui/vue": "^1.7.19",
         "@heroicons/vue": "^1.0.6",
         "flowbite-vue": "^0.1.3"
